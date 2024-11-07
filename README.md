@@ -19,6 +19,13 @@ This project is aimed at improving the recruitment process for Calon Pegawai Neg
 * *Optimize Resources:* Focus resources on the most suitable candidates, ensuring only the best are prioritized for final stages.
 * *Improve Accuracy:* Provide a more precise matching system to align candidate skills and experience with job requirements.
 
+### Main Features
+* *Company Funfact:* Lets companies share unique and interesting facts about their culture, achievements, and values. This feature gives applicants a better sense of each company’s environment and helps build a positive employer brand.
+* *Job Matching:* Uses AI to match applicants with jobs based on qualifications like experience, education, skills etc. This feature streamlines job searching for candidates and enhances hiring accuracy for employers by "swiping" the company.
+* *User Profile:* Allows applicants to create and manage their profiles, showcasing education, work experience, skills, certifications etc. It simplifies job applications by keeping all key information in one place.
+
+### Purpose of Jobfit
+Jobfit was created to address key challenges in recruitment by making the hiring process faster, more accurate, and unbiased. With the use of AI, Jobfit automates the screening of applications, matches candidates to suitable roles, and reduces the administrative workload for hiring teams. This app aims to ensure that companies find the right talent quickly, while also providing a transparent and fair recruitment experience for job seekers. In a competitive job market, Jobfit streamlines recruitment, saves time and costs, and enhances the overall hiring experience.
 
 ## System Requirements
 #### Functional Requirements
@@ -108,17 +115,123 @@ This project is aimed at improving the recruitment process for Calon Pegawai Neg
 1. Job Matching:
    * The User can access the Job Matching feature to find suitable job positions based on their profile and qualifications.
    * The Company is also involved, as they provide the job listings that are matched with users.
-
 2. Check Company Funfact:
     * The User can access Company Funfact to view interesting facts or information about the company, which can make the company more appealing to potential applicants.
-
 3. See Profile:
     * The User can view their profile, where they can manage or update their information.
-
 4. Maintenance:
     * The IT Team is responsible for system maintenance, ensuring that the application runs smoothly and performs efficiently.
-
 5. Repair:
     * The IT Team is also involved in the Repair process, addressing any technical issues or bugs that arise to keep the system operational.
+  
+## Class Diagram
+1. AplikasiRekrutmen (Main Application Class)
+* Attributes:
+     * daftarKandidat: A list of Kandidat objects representing all applicants.
+     * daftarPosisi: A list of Posisi objects representing available job positions.
+     * rekomendasiKandidat: A list of recommended candidates for specific positions.
+     * daftarArtikel: A list of ArtikelPerusahaan, likely for the Company Funfact feature.
+* Methods:
+  * analisaDataKandidat(): Analyzes candidate data, possibly filtering or scoring them.
+  * analisaDataPosisi(): Analyzes job positions data, likely preparing it for candidate matching.
+  * cocokanKandidat(): Matches candidates to job positions based on qualifications.
+  * kurangiBias(): Reduces bias in the selection process, possibly by standardizing theevaluation criteria.
+  * tampilkanFunFactPerusahaan(): Shows fun facts about companies.
+  * tampilkanProfile(kandidat: Kandidat): Displays the profile of a selected candidate.
 
-This use case diagram shows how different actors interact with the system. The User primarily interacts with features that provide job information, company insights, and personal profile management. The Company plays a supportive role by providing data for job matching. Meanwhile, the IT Team ensures the system’s stability and functionality through maintenance and repair activities.
+2. NLPProcessor (Natural Language Processing Class)
+* Attributes:
+  * ekstrakData(): Extracts structured data from unstructured text, such as candidate qualifications in resumes.
+* Methods:
+  * analisaTeks(teks): Analyzes text to gather information, likely used for processing resumes or cover letters.
+    
+3. MLModel (Machine Learning Model Class)
+* Methods:
+  * latihModel(data): Trains the machine learning model using historical data, likely to improve candidate matching.
+  * prediksiKandidat(): Predicts the best-matching candidate for a specific position based on the trained model.
+
+4. Kandidat (Candidate Class)
+* Attributes:
+  * idKandidat: A unique identifier for each candidate.
+  * nama: Candidate's name.
+  * pengalaman: Candidate's work experience.
+  * keterampilan: A list of skills the candidate possesses.
+* Relationship:
+  * Linked to ProfilKandidat, containing additional personal details.
+
+5. ProfilKandidat (Candidate Profile Class)
+* Attributes:
+  * email: Candidate's email address.
+  * phone: Candidate's phone number.
+  * alamat: Candidate's address.
+  * mediaSosial: Candidate's social media links.
+*Purpose:
+  * Stores detailed personal information about the candidate.
+
+6. Posisi (Position Class)
+* Attributes:
+  * idPosisi: A unique identifier for each position.
+  * judul: Job title.
+  * kualifikasi: Required qualifications for the position.
+  * deskripsi: Job description.
+
+7. DataHistoris (Historical Data Class)
+* Attributes:
+  * dataRekrutmen: A list of historical recruitment data used for training the machine learning model.
+
+### Relationships and Interaction
+* The AplikasiRekrutmen class uses NLPProcessor to analyze and process text data from candidate profiles or resumes.
+* MLModel is employed by AplikasiRekrutmen to make predictions for matching candidates to jobs.
+* Kandidat and Posisi classes hold data for each candidate and job, respectively, which is analyzed and matched.
+* ProfilKandidat provides additional details for each Kandidat.
+* DataHistoris provides historical data used by MLModel for training.
+
+## UML Diagram
+![image](https://github.com/user-attachments/assets/457bf688-4840-47b2-a811-2213a26d1282)
+1. **Tampilkan Artikel/Fun Fact Perusahaan**  
+   - The process starts by displaying fun facts or articles about the company, which might serve to attract candidates or give them more insight into the company culture.
+
+2. **Input Data**  
+   - Candidate or position data is entered into the system.
+
+3. **Validasi Data**  
+   - The system validates the entered data to check for accuracy and completeness.
+
+4. **Data Valid?**  
+   - A decision point where the system checks if the data is valid:
+     - If "No," it loops back to re-enter or correct the data.
+     - If "Yes," the process moves to the next step.
+
+5. **Preprocessing**  
+   - The data undergoes preprocessing, such as cleaning or formatting, to make it ready for further analysis or model processing.
+
+6. **Analisis Data Secara NLP (Natural Language Processing)**  
+   - The system uses NLP techniques to analyze unstructured data, such as resumes or cover letters, extracting relevant information.
+
+7. **Latih Model dengan ML Model**  
+   - The machine learning model is trained with existing data to improve its predictive accuracy.
+
+8. **Prediksi Kecocokan Kandidat dengan ML**  
+   - The trained model predicts the suitability of candidates for specific job positions.
+
+9. **Kecocokan Sesuai?**  
+   - Another decision point:
+     - If "No," the candidate is rejected.
+     - If "Yes," the candidate is recommended for the position.
+
+10. **Tambahkan Kandidat ke Daftar Rekomendasi**  
+    - Qualified candidates are added to a list of recommended candidates for the job.
+
+11. **Tampilkan Daftar Kandidat**  
+    - The system displays the list of recommended candidates.
+
+12. **Tampilkan Profil Kandidat**  
+    - The detailed profile of each recommended candidate is shown, allowing recruiters to review the candidates.
+
+13. **Update Data Historis**  
+    - The historical data is updated with information from the current recruitment process, improving the model’s training data for future predictions.
+
+14. **End of Process**  
+    - The process concludes here, either by adding a recommended candidate to the list or rejecting them if they don’t meet the criteria.
+
+This flowchart outlines a systematic recruitment process in which candidate data is input, validated, analyzed, and matched to positions using NLP and machine learning. The application ultimately recommends suitable candidates or rejects them based on predicted fit. The process continuously improves as historical data is updated.
